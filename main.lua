@@ -19,12 +19,16 @@ end
 
 on_update(function ()
   local local_player = get_local_player()
-  local buffs = local_player:get_buffs()
+  
+  if not local_player then
+    return
+  end
 
   if not menu.elements.main_toggle:get() then
     return
   end
 
+  local buffs = local_player:get_buffs()
   local elite_toggle = menu.elements.elite_toggle:get()
   local player_position = get_player_position()
 
