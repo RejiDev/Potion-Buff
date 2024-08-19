@@ -5,7 +5,8 @@ menu.elements = {
   main_tree = tree_node:new(0),
   main_toggle = checkbox:new(false, get_hash(plugin_label .. "_main_toggle")),
 
-  elite_toggle = checkbox:new(false, get_hash(plugin_label .. "_elite_toggle"))
+  elite_toggle = checkbox:new(false, get_hash(plugin_label .. "_elite_toggle")),
+  boss_toggle = checkbox:new(false, get_hash(plugin_label .. "_boss_toggle")),
 }
 
 function menu.render()
@@ -20,6 +21,7 @@ function menu.render()
   end
 
   menu.elements.elite_toggle:render("Elite Only", "Uses Potions Only Near Elites/Bosses")
+  menu.elements.boss_toggle:render("Boss Only", "Uses Potions Only Near Bosses")
 
 end
 

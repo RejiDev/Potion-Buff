@@ -17,6 +17,17 @@ local function check_and_use_health_potion(buff_count)
   end
 end
 
+local function check_for_enemies(player_position, buffs, enemy_type)
+  local enemies = target_selector.get_near_target_list(player_position, 12)
+
+    for _, enemy in ipairs(enemies) do
+      if enemy_type == "elite" and enemy:is_elite() or enemy_type == "elite" and enemy:is_champion() or enemy_type == "elite" and enemy:is_boss() or enemy_type == "boss" and enemy:is_boss() then
+        local buff_count = count_buff(needed_buff, buffs)
+        check_and_use_health_potion(buff_count)
+      end
+    end
+end
+
 on_update(function ()
   local local_player = get_local_player()
   
@@ -30,17 +41,14 @@ on_update(function ()
 
   local buffs = local_player:get_buffs()
   local elite_toggle = menu.elements.elite_toggle:get()
+  local boss_toggle = menu.elements.boss_toggle:get()
   local player_position = get_player_position()
 
-  if elite_toggle then
-    local enemies = target_selector.get_near_target_list(player_position, 12)
+  if boss_toggle then
+    check_for_enemies(player_position, buffs, "boss")
 
-    for _, enemy in ipairs(enemies) do
-      if enemy:is_elite() or enemy:is_champion() or enemy:is_boss() then
-        local buff_count = count_buff(needed_buff, buffs)
-        check_and_use_health_potion(buff_count)
-      end
-    end
+  elseif elite_toggle then
+    check_for_enemies(player_position, buffs, "elite")
   else
     local closest_target = target_selector.get_target_closer(player_position, 12)
 
