@@ -17,7 +17,7 @@ local function check_and_use_health_potion(buff_count)
   end
 end
 
-local function check_for_enemies(player_position, buffs, enemy_type)
+local function check_for_enemies(player_position, buffs, enemy_type, distance)
   local enemies = target_selector.get_near_target_list(player_position, 12)
 
     for _, enemy in ipairs(enemies) do
@@ -44,11 +44,13 @@ on_update(function ()
   local boss_toggle = menu.elements.boss_toggle:get()
   local player_position = get_player_position()
 
+  local distance = menu.elements.distance_slider:get()
+
   if boss_toggle then
-    check_for_enemies(player_position, buffs, "boss")
+    check_for_enemies(player_position, buffs, "boss", distance)
 
   elseif elite_toggle then
-    check_for_enemies(player_position, buffs, "elite")
+    check_for_enemies(player_position, buffs, "elite", distance)
   else
     local closest_target = target_selector.get_target_closer(player_position, 12)
 
@@ -59,5 +61,4 @@ on_update(function ()
   end
 end)
 
--- Render the menu
 on_render_menu(menu.render)
